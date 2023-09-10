@@ -82,7 +82,7 @@ jobs:
     - run: flutter --version
 
     - name: flutter pub get
-      working-directory: flutter
+      # working-directory: flutter
       run: flutter pub get
     
     - name: Install CocoaPods
