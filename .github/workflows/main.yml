@@ -61,13 +61,13 @@ jobs:
       #   xcrun simctl boot "${UDID:?No Simulator with this name found}"
       # run: xcrun simctl boot 66A6B2F3-3C93-4F80-9B07-F5AA621210E7
       run: |
-        UUID=$(xcrun simctl list devices | grep -o "iPhone 8 ([A-Z0-9-]\+)" | awk -F '[()]' '{print $2}')
+        UUID=$(xcrun simctl list devices | grep -o "${matrix.device} ([A-Z0-9-]\+)" | awk -F '[()]' '{print $2}')
         
-        xcrun simctl boot $UUID
+        xcrun simctl boot "${UUID}"
 
     # The branch or tag ref that triggered the workflow will be checked out.
     # https://github.com/actions/checkout
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v3
     # Sets up a flutter environment.
     # https://github.com/marketplace/actions/flutter-action
     # - uses: subosito/flutter-action@v1
