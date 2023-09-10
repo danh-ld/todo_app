@@ -80,11 +80,15 @@ jobs:
         cache-key: flutter-3.10.3
         cache-path: ${{ runner.tool_cache }}/flutter-3.10.3
     - run: flutter --version
+
+    - name: flutter pub get
+      working-directory: flutter
+      run: flutter pub get
     
     - name: Install CocoaPods
       run: sudo gem install cocoapods
-    - name: Install Pods
-      run: cd ios && pod install
+    # - name: Install Pods
+    #   run: cd ios && pod install
 
     - name: Check path
       run: |
