@@ -80,8 +80,8 @@ jobs:
     
     - name: Install CocoaPods
       run: sudo gem install cocoapods
-    - name: Install Pods
-      run: cd ios && pod install
+    # - name: Install Pods
+    #   run: cd ios && pod install
       
     - name: "Run Flutter Driver tests"
       run: "flutter drive --target=test_driver/app.dart"
