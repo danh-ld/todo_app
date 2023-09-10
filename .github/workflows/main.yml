@@ -43,7 +43,7 @@ jobs:
 
     - name: Print instruments
       run: |
-          xcrun simctl list devices
+          xcrun simctl list devices | grep -v "Unavailable"
         
     # A name for your step to display on GitHub.
     # - name: "List all simulators"
@@ -61,9 +61,9 @@ jobs:
       #   xcrun simctl boot "${UDID:?No Simulator with this name found}"
       # run: xcrun simctl boot 66A6B2F3-3C93-4F80-9B07-F5AA621210E7
       run: |
-        UUID=$(xcrun simctl list devices | grep -o "${{matrix.device}} ([A-Z0-9-]\+)" | awk -F '[()]' '{print $2}')
+        UUID=$(xcrun simctl list devices | grep -v "Unavailable" | grep -o "${{ matrix.device }} ([A-Z0-9-]\+)" | awk -F '[()]' '{print $2}')
         
-        xcrun simctl boot F7825553-E407-4D90-B644-EF8800278482
+        xcrun simctl boot $UUID
 
     # The branch or tag ref that triggered the workflow will be checked out.
     # https://github.com/actions/checkout
