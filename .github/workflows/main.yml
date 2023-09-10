@@ -36,6 +36,10 @@ jobs:
     - name: Print Xcode version
       run: |
         xcodebuild -version
+    - name: Check PATH and available tools
+      run: |
+        echo $PATH
+        ls $(xcode-select -p)/usr/bin
 
     - name: Print instruments
       run: |
