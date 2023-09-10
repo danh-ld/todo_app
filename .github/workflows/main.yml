@@ -23,6 +23,8 @@ jobs:
     runs-on: macOS-latest
     # Contains a sequence of tasks.
     steps:
+    - name: Set Xcode version
+      run: sudo xcode-select -switch /Applications/Xcode_12.4.app
     # A name for your step to display on GitHub.
     - name: "List all simulators"
       run: "xcrun instruments -s"
