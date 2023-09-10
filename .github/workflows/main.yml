@@ -43,7 +43,7 @@ jobs:
 
     - name: Print instruments
       run: |
-          
+          xcrun simctl list devices
         
     # A name for your step to display on GitHub.
     # - name: "List all simulators"
