@@ -35,7 +35,7 @@ void main() {
 
     // Connect to the Flutter driver before running any tests.
     setUpAll(() async {
-      driver = await FlutterDriver.connect(printCommunication: true);
+      driver = await FlutterDriver.connect();
     });
 
     // Close the connection to the driver after the tests have completed.
@@ -84,21 +84,12 @@ void main() {
       //   await driver?.waitFor(find.text("make an integration test video"),
       //       timeout: const Duration(seconds: 3));
       // }
-      // expect(
-      //     find.text(
-      //         "Your TodosaaaaaaaaaaaaaTodosaaaaaaaaaaaaaTodosaaaaaaaaaaaaa"),
-      //     isTrue);
-      // final counterTextFinder = find.text('overflowed'.toUpperCase());
-      // await driver?.waitFor(counterTextFinder,
-      //     timeout: const Duration(seconds: 3));
-      // expect(await driver?.waitFor(counterTextFinder),
-      //     "Your TodosaaaaaaaaaaaaaTodosaaaaaaaaaaaaaTodosaaaaaaaaaaaaa");
       await driver?.tap(addField);
       await driver?.enterText("make an integration test video");
       await driver?.tap(addButton);
 
       await driver?.waitFor(
-        find.text("make an integration test vido"),
+        find.text("make an integration test video"),
         timeout: const Duration(seconds: 3),
       );
     });
