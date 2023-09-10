@@ -23,8 +23,18 @@ jobs:
     runs-on: macOS-latest
     # Contains a sequence of tasks.
     steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
     - name: Set Xcode version
-      run: sudo xcode-select -switch /Applications/Xcode_12.4.app
+      run: |
+        echo "Available Xcode versions:"
+        ls /Applications | grep Xcode
+        sudo xcode-select -switch /Applications/Xcode_12.4.app/Contents/Developer
+
+    - name: Print Xcode version
+      run: |
+        xcodebuild -version
     # A name for your step to display on GitHub.
     - name: "List all simulators"
       run: "xcrun instruments -s"
