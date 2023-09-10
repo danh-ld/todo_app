@@ -51,7 +51,7 @@ jobs:
     - name: "Start Simulator"
       run: |
         UDID=$(
-          xcrun instruments -s |
+          xcrun simctl -s |
           awk \
             -F ' *[][]' \
             -v 'device=${{ matrix.device }}' \
