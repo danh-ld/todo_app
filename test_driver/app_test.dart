@@ -98,7 +98,7 @@ void main() {
       await driver?.tap(addButton);
 
       await driver?.waitFor(
-        find.text("make an integration test video"),
+        find.text("make an integration test vido"),
         timeout: const Duration(seconds: 3),
       );
     });
