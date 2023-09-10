@@ -84,7 +84,9 @@ jobs:
     #   run: cd ios && pod install
 
     - name: Check path
-      run: pwd
+      run: |
+        pwd
+        ls
       
     - name: "Run Flutter Driver tests"
       run: "flutter drive --target=test_driver/app.dart"
