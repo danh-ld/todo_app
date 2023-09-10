@@ -20,7 +20,7 @@ jobs:
       # fails.
       fail-fast: false
     # The type of machine to run the job on.
-    runs-on: macOS-10.15
+    runs-on: macOS-latest
     # Contains a sequence of tasks.
     steps:
     - name: Checkout Repository
@@ -43,7 +43,7 @@ jobs:
 
     - name: Print instruments
       run: |
-        xcrun instruments -s
+        xcrun simctl list devices
         
     # A name for your step to display on GitHub.
     # - name: "List all simulators"
