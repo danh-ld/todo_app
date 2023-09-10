@@ -49,16 +49,18 @@ jobs:
     # - name: "List all simulators"
     #   run: "xcrun instruments -s"
     - name: "Start Simulator"
-      run: |
-        UDID=$(
-          xcrun simctl -s |
-          awk \
-            -F ' *[][]' \
-            -v 'device=${{ matrix.device }}' \
-            '$1 == device { print $2 }'
-        )
+      # run: |
+      #   UDID=$(
+      #     xcrun simctl -s |
+      #     awk \
+      #       -F ' *[][]' \
+      #       -v 'device=${{ matrix.device }}' \
+      #       '$1 == device { print $2 }'
+      #   )
 
-        xcrun simctl boot "${UDID:?No Simulator with this name found}"
+      #   xcrun simctl boot "${UDID:?No Simulator with this name found}"
+      run: xcrun simctl boot F7825553-E407-4D90-B644-EF8800278482
+
     # The branch or tag ref that triggered the workflow will be checked out.
     # https://github.com/actions/checkout
     - uses: actions/checkout@v1
