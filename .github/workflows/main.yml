@@ -26,18 +26,24 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v2
 
-    - name: Set Xcode version
+    - name: Set latest Xcode version
       run: |
         echo "Available Xcode versions:"
-        ls /Applications | grep Xcode
-        sudo xcode-select -switch /Applications/Xcode_14.2.app/Contents/Developer
+        XCODE_PATH=$(ls /Applications | grep Xcode | sort -V | tail -n 1)
+        echo "Selected Xcode version: $XCODE_PATH"
+        sudo xcode-select -switch /Applications/$XCODE_PATH/Contents/Developer
 
     - name: Print Xcode version
       run: |
         xcodebuild -version
+
+    - name: Print instruments
+      run: |
+        xcrun instruments -s
+        
     # A name for your step to display on GitHub.
-    - name: "List all simulators"
-      run: "xcrun instruments -s"
+    # - name: "List all simulators"
+    #   run: "xcrun instruments -s"
     - name: "Start Simulator"
       run: |
         UDID=$(
