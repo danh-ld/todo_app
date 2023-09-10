@@ -63,7 +63,7 @@ jobs:
       run: |
         UUID=$(xcrun simctl list devices | grep -o "${{matrix.device}} ([A-Z0-9-]\+)" | awk -F '[()]' '{print $2}')
         
-        xcrun simctl boot "${UUID}"
+        xcrun simctl boot "${{UUID}}"
 
     # The branch or tag ref that triggered the workflow will be checked out.
     # https://github.com/actions/checkout
