@@ -88,7 +88,7 @@ void main() {
       //     find.text(
       //         "Your TodosaaaaaaaaaaaaaTodosaaaaaaaaaaaaaTodosaaaaaaaaaaaaa"),
       //     isTrue);
-      final counterTextFinder = find.text('overflowed'.toUpperCase());
+      // final counterTextFinder = find.text('overflowed'.toUpperCase());
       // await driver?.waitFor(counterTextFinder,
       //     timeout: const Duration(seconds: 3));
       // expect(await driver?.waitFor(counterTextFinder),
