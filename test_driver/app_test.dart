@@ -21,8 +21,10 @@ void main() {
 
     FlutterDriver? driver;
 
-    Future<bool> isPresent(SerializableFinder byValueKey,
-        {Duration timeout = const Duration(seconds: 1)}) async {
+    Future<bool> isPresent(
+      SerializableFinder byValueKey, {
+      Duration timeout = const Duration(seconds: 1),
+    }) async {
       try {
         await driver?.waitFor(byValueKey, timeout: timeout);
         return true;
@@ -95,8 +97,10 @@ void main() {
       await driver?.enterText("make an integration test video");
       await driver?.tap(addButton);
 
-      // await driver?.waitFor(find.text("make an integration test video"),
-      //     timeout: const Duration(seconds: 3));
+      await driver?.waitFor(
+        find.text("make an integration test video"),
+        timeout: const Duration(seconds: 3),
+      );
     });
   });
 }
