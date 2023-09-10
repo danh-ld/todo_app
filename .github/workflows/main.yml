@@ -20,7 +20,7 @@ jobs:
       # fails.
       fail-fast: false
     # The type of machine to run the job on.
-    runs-on: macOS-latest
+    runs-on: macOS-10.15
     # Contains a sequence of tasks.
     steps:
     - name: Checkout Repository
