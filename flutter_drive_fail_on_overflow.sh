@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # Tạo named pipe
+rm -rf pipe
 mkfifo pipe
 
 # Chạy flutter driver và đưa output vào named pipe
@@ -28,12 +29,12 @@ awk_exit_code=$?
 
 # Kiểm tra mã trả về của cả flutter driver và awk
 if [ $awk_exit_code -eq 1 ] || [ $awk_exit_code -eq 2 ] || [ $flutter_exit_code -ne 0 ]; then
-    rm pipe
+    rm -rf pipe
     echo "Error detected:"
     echo "$error"
     exit 1
 fi
 
 # Xóa named pipe
-rm pipe
+rm -rf pipe
 
