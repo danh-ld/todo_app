@@ -7,7 +7,7 @@ import 'package:todo_app/services/database.dart';
 import 'package:todo_app/widgets/todo_card.dart';
 
 class Home extends StatefulWidget {
-  const Home({Key? key}) : super(key: key);
+  const Home({super.key});
 
   @override
   _HomeState createState() => _HomeState();
@@ -76,9 +76,10 @@ class _HomeState extends State<Home> {
           const SizedBox(
             height: 20,
           ),
-          Row(
+          const Row(
             children: [
-              const Text(
+              Text(
+                key: ValueKey('danhdanh'),
                 "Your TodosaaaaaaaaaaaaaTodosaaaaaaaaaaaaaTodosaaaaaaaaaaaaa1",
                 style: TextStyle(
                   fontSize: 20,
@@ -88,14 +89,15 @@ class _HomeState extends State<Home> {
             ],
           ),
           Expanded(
-              child: ListView.builder(
-            itemCount: todos.length,
-            itemBuilder: (_, index) {
-              return TodoCard(
-                todo: todos[index],
-              );
-            },
-          )),
+            child: ListView.builder(
+              itemCount: todos.length,
+              itemBuilder: (_, index) {
+                return TodoCard(
+                  todo: todos[index],
+                );
+              },
+            ),
+          ),
         ],
       ),
     );

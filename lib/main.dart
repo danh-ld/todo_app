@@ -4,10 +4,18 @@ import 'package:flutter/material.dart';
 
 // import 'package:firebase_core/firebase_core.dart';
 import 'package:todo_app/screens/home.dart';
-import 'package:todo_app/screens/login.dart';
-import 'package:todo_app/services/auth.dart';
+
+void driverLog(String source, String message) {
+  // if (IsInTestMode) { // Bạn cần xác định biến này dựa trên môi trường của mình
+  //   print('[$source] $message');
+  // }
+  print('[$source] $message');
+}
 
 void main() {
+  // FlutterError.onError = (FlutterErrorDetails details) async {
+  //   driverLog('FlutterError', details.toString());
+  // };
   runApp(App());
 }
 
@@ -15,34 +23,35 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        theme: ThemeData.dark(),
-        // home: FutureBuilder(
-        //   // Initialize FlutterFire:
-        //   future: Firebase.initializeApp(),
-        //   builder: (context, snapshot) {
-        //     // Check for errors
-        //     if (snapshot.hasError) {
-        //       return const Scaffold(
-        //         body: Center(
-        //           child: Text("Error"),
-        //         ),
-        //       );
-        //     }
+      theme: ThemeData.dark(),
+      // home: FutureBuilder(
+      //   // Initialize FlutterFire:
+      //   future: Firebase.initializeApp(),
+      //   builder: (context, snapshot) {
+      //     // Check for errors
+      //     if (snapshot.hasError) {
+      //       return const Scaffold(
+      //         body: Center(
+      //           child: Text("Error"),
+      //         ),
+      //       );
+      //     }
 
-        //     // Once complete, show your application
-        //     if (snapshot.connectionState == ConnectionState.done) {
-        //       return Root();
-        //     }
+      //     // Once complete, show your application
+      //     if (snapshot.connectionState == ConnectionState.done) {
+      //       return Root();
+      //     }
 
-        //     // Otherwise, show something whilst waiting for initialization to complete
-        //     return const Scaffold(
-        //       body: Center(
-        //         child: Text("Loading..."),
-        //       ),
-        //     );
-        //   },
-        // ),
-        home: Root());
+      //     // Otherwise, show something whilst waiting for initialization to complete
+      //     return const Scaffold(
+      //       body: Center(
+      //         child: Text("Loading..."),
+      //       ),
+      //     );
+      //   },
+      // ),
+      home: Root(),
+    );
   }
 }
 
@@ -80,6 +89,6 @@ class _RootState extends State<Root> {
     //     }
     //   }, //Auth stream
     // );
-    return Home();
+    return const Home();
   }
 }

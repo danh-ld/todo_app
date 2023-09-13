@@ -84,12 +84,13 @@ void main() {
       //   await driver?.waitFor(find.text("make an integration test video"),
       //       timeout: const Duration(seconds: 3));
       // }
+
       await driver?.tap(addField);
       await driver?.enterText("make an integration test video");
       await driver?.tap(addButton);
 
       await driver?.waitFor(
-        find.text("make an integration test video"),
+        find.text("make an integration test vido"),
         timeout: const Duration(seconds: 3),
       );
     });
