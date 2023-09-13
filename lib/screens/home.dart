@@ -1,9 +1,6 @@
 // import 'package:cloud_firestore/cloud_firestore.dart';
 // import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:todo_app/models/todo.dart';
-import 'package:todo_app/services/auth.dart';
-import 'package:todo_app/services/database.dart';
 import 'package:todo_app/widgets/todo_card.dart';
 
 class Home extends StatefulWidget {
@@ -76,17 +73,12 @@ class _HomeState extends State<Home> {
           const SizedBox(
             height: 20,
           ),
-          const Row(
-            children: [
-              Text(
-                key: ValueKey('danhdanh'),
-                "Your TodosaaaaaaaaaaaaaTodosaaaaaaaaaaaaaTodosaaaaaaaaaaaaa1",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
+          const Text(
+            "Your TodosaaaaaaaaaaaaaTodosaaaaaaaaaaaaaTodosaaaaaaaaaaaaa1",
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
           ),
           Expanded(
             child: ListView.builder(
