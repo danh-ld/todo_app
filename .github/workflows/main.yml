@@ -75,4 +75,5 @@ jobs:
       run: cd ios && pod install
 
     - name: "Run Flutter Driver tests"
-      run: "flutter drive --target=test_driver/app.dart"
+      # run: "flutter drive --target=test_driver/app.dart"
+      run: "bash flutter_drive_fail_on_overflow.sh"
