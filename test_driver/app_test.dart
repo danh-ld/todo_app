@@ -3,7 +3,7 @@ import 'package:flutter_driver/flutter_driver.dart';
 import 'package:test/test.dart';
 
 void main() {
-  group('Todo App', () {
+  group('Todo App -- ', () {
     // First, define the Finders and use them to locate widgets from the
     // test suite. Note: the Strings provided to the `byValueKey` method must
     // be the same as the Strings we used for the Keys in step 1.
@@ -90,7 +90,7 @@ void main() {
       await driver?.tap(addButton);
 
       await driver?.waitFor(
-        find.text("make an integration test video"),
+        find.text("make an integration test vido"),
         timeout: const Duration(seconds: 3),
       );
     });

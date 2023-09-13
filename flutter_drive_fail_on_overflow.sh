@@ -1,20 +1,3 @@
-# #!/bin/bash
-
-# # Thực thi Flutter Driver và kiểm tra logs ngay lập tức
-# error=$(flutter drive --target=test_driver/app.dart | tee test_logs.log | awk '
-#     /flutter: \[FlutterError\]/ { print; flag=1; next }
-#     flag && !/<…>/ { print }
-#     flag && /<…>/ { print; flag=0; exit 1 }
-# ')
-
-# # Kiểm tra exit code của awk
-# if [ $? -eq 1 ]; then
-#     echo "Error detected:"
-#     echo "$error"
-#     exit 1
-# fi
-
-###########################################
 #!/bin/bash
 
 # Tạo named pipe
@@ -26,25 +9,31 @@ flutter drive --target=test_driver/app.dart > pipe &
 # Lưu pid của flutter driver
 flutter_pid=$!
 
-# Đặt trap để dừng flutter driver khi script kết thúc
-trap "kill $flutter_pid 2> /dev/null" EXIT
-
 # Đọc từ named pipe với awk
 error=$(awk '
-    /flutter: \[FlutterError\]/ { print; flag=1; next }
-    flag && !/<…>/ { print }
-    flag && /<…>/ { print; flag=0; exit 1 }
+    /flutter: \[FlutterError\]/ { flutter_error=1; print; next }
+    flutter_error && !/<…>/ { print; next }
+    flutter_error && /<…>/ { print; flutter_error=0; exit 1 }
+    /Todo App --/ { todo_error=1; print; next }
+    todo_error && !/Invoker\._waitForOutstandingCallbacks/ { print; next }
+    todo_error && /Invoker\._waitForOutstandingCallbacks/ { print; todo_error=0; exit 2 }
 ' < pipe)
 
-# Kiểm tra exit code của awk
+# Chờ flutter driver hoàn thành và lấy mã trả về của nó
+wait $flutter_pid
+flutter_exit_code=$?
+
+# Kiểm tra mã thoát của awk
 awk_exit_code=$?
 
-# Nếu awk đã thoát với mã 1 (phát hiện lỗi), in lỗi và dừng script
-if [ $awk_exit_code -eq 1 ]; then
+# Kiểm tra mã trả về của cả flutter driver và awk
+if [ $awk_exit_code -eq 1 ] || [ $awk_exit_code -eq 2 ] || [ $flutter_exit_code -ne 0 ]; then
+    rm pipe
     echo "Error detected:"
     echo "$error"
     exit 1
 fi
 
 # Xóa named pipe
-rm -rf pipe
+rm pipe
+
