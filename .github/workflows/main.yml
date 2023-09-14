@@ -40,6 +40,16 @@ jobs:
         cache-key: flutter-3.10.3
         cache-path: ${{ runner.tool_cache }}/flutter-3.10.3
 
+    - name: flutter pub get
+      run: flutter pub get
+    
+    - name: Install CocoaPods
+      run: sudo gem install cocoapods
+    - name: Install Pods
+      run: cd ios && pod install
+
+
+
     - name: Set latest Xcode version
       run: |
         echo "Available Xcode versions:"
@@ -61,14 +71,6 @@ jobs:
         UUID=$(xcrun simctl list devices | grep -v "Unavailable" | grep -v "unavailable" | grep -o "${{ matrix.device }} ([A-Z0-9-]\+)" | awk -F '[()]' '{print $2}')
         
         xcrun simctl boot $UUID
-
-    - name: flutter pub get
-      run: flutter pub get
-    
-    - name: Install CocoaPods
-      run: sudo gem install cocoapods
-    - name: Install Pods
-      run: cd ios && pod install
 
     - name: "Run Flutter Driver tests"
       # run: "flutter drive --target=test_driver/app.dart"
