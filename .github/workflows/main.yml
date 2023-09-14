@@ -66,6 +66,12 @@ jobs:
         cache-key: flutter-3.10.3
         cache-path: ${{ runner.tool_cache }}/flutter-3.10.3
 
+    - name: Check if cache hit
+        if: ${{ env.cache-hit == 'true' }}
+        echo 'Flutter has been installed from cache'
+        else:
+        echo 'Flutter has been installed from scratch'
+
     - name: flutter pub get
       run: flutter pub get
     
