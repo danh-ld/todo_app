@@ -84,13 +84,20 @@ void main() {
       //   await driver?.waitFor(find.text("make an integration test video"),
       //       timeout: const Duration(seconds: 3));
       // }
-      // DriverError('danhdanh');
       await driver?.tap(addField);
-      await driver?.enterText("make an integration test video");
+      await driver?.enterText("MTP is the best");
       await driver?.tap(addButton);
 
       await driver?.waitFor(
-        find.text("make an integration test vido"),
+        find.text("MTP is the best"),
+        timeout: const Duration(seconds: 3),
+      );
+      await driver?.tap(addField);
+      await driver?.enterText("sky forever");
+      await driver?.tap(addButton);
+
+      await driver?.waitFor(
+        find.text("sky foreve"),
         timeout: const Duration(seconds: 3),
       );
     });
