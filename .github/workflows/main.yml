@@ -57,7 +57,7 @@ jobs:
         
     - name: "Start Simulator"
       run: |
-        UUID=$(xcrun simctl list devices | grep -v "Unavailable" | grep -v "unavailable" | grep "${{ matrix.device }}" | awk -F '[()]' '{print $2}')
+        UUID=$(xcrun simctl list devices | grep -v "Unavailable" | grep -v "unavailable" | grep "${{ matrix.device }}" | awk -F '[()]' '{print $(NF-1)}')
         
         xcrun simctl boot $UUID
         open -a Simulator
