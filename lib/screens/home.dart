@@ -1,5 +1,3 @@
-// import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:todo_app/widgets/todo_card.dart';
 
@@ -20,15 +18,6 @@ class _HomeState extends State<Home> {
       appBar: AppBar(
         title: const Text("Amateur Coder Todo"),
         centerTitle: true,
-        // actions: [
-        //   IconButton(
-        //     key: const ValueKey("signOut"),
-        //     icon: const Icon(Icons.exit_to_app),
-        //     onPressed: () {
-        //       Auth(auth: widget.auth).signOut();
-        //     },
-        //   )
-        // ],
       ),
       body: Column(
         children: <Widget>[
@@ -36,7 +25,7 @@ class _HomeState extends State<Home> {
             height: 20,
           ),
           const Text(
-            "Add Todo Here:",
+            "Add Todo",
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
@@ -74,7 +63,7 @@ class _HomeState extends State<Home> {
             height: 20,
           ),
           const Text(
-            "Your TodosaaaaaaaaaaaaaTodosaaaaaaaaaaaaaTodosaaaaaaaaaaaaa1",
+            "Todos",
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,

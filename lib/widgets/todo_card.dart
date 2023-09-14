@@ -1,12 +1,10 @@
 // import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:todo_app/models/todo.dart';
-import 'package:todo_app/services/database.dart';
 
 class TodoCard extends StatefulWidget {
   final String todo;
 
-  const TodoCard({Key? key, required this.todo}) : super(key: key);
+  const TodoCard({super.key, required this.todo});
 
   @override
   _TodoCardState createState() => _TodoCardState();
