@@ -19,14 +19,16 @@ class _TodoCardState extends State<TodoCard> {
         padding: const EdgeInsets.all(10.0),
         child: Row(
           children: [
-            Expanded(
-              child: Text(
-                widget.todo,
-                style: const TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
+            Row(
+              children: [
+                Text(
+                  widget.todo,
+                  style: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
+              ],
             ),
             // Checkbox(
             //   value: widget.todo.done,
