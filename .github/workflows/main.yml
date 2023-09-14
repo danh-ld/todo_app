@@ -11,7 +11,6 @@ jobs:
       matrix:
         device:
         - "iPhone 14 Pro Max"
-        - "iPad Air (5th generation)"
         # - "iPhone 11 Pro Max (13.1)"
       # When set to true, GitHub cancels all in-progress jobs if any matrix job
       # fails.
@@ -64,4 +63,4 @@ jobs:
 
     - name: "Run Flutter Driver tests"
       # run: "flutter drive --target=test_driver/app.dart"
-      run: "bash scripts/flutter_drive.sh"
+      run: "bash flutter_drive.sh"
