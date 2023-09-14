@@ -51,7 +51,6 @@ jobs:
         UUID=$(xcrun simctl list devices | grep -v "Unavailable" | grep -v "unavailable" | grep -o "${{ matrix.device }} ([A-Z0-9-]\+)" | awk -F '[()]' '{print $2}')
         
         xcrun simctl boot $UUID
-        open -a Simulator
 
     # The branch or tag ref that triggered the workflow will be checked out.
     # https://github.com/actions/checkout
@@ -65,9 +64,6 @@ jobs:
         cache: true
         cache-key: flutter-3.10.3
         cache-path: ${{ runner.tool_cache }}/flutter-3.10.3
-
-    - name: Check if cache hit
-      run: echo ${{ steps.setup_flutter.outputs.cache_hit }}
 
     - name: flutter pub get
       run: flutter pub get
