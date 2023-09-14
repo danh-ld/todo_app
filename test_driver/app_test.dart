@@ -97,7 +97,7 @@ void main() {
       await driver?.tap(addButton);
 
       await driver?.waitFor(
-        find.text("sky foreve"),
+        find.text("sky forever"),
         timeout: const Duration(seconds: 3),
       );
     });
