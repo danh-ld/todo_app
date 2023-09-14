@@ -26,32 +26,6 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v2
 
-    - name: Set latest Xcode version
-      run: |
-        echo "Available Xcode versions:"
-        XCODE_PATH=$(ls /Applications | grep Xcode | sort -V | tail -n 1)
-        echo "Selected Xcode version: $XCODE_PATH"
-        sudo xcode-select -switch /Applications/$XCODE_PATH/Contents/Developer
-
-    - name: Print Xcode version
-      run: |
-        xcodebuild -version
-    - name: Check PATH and available tools
-      run: |
-        echo $PATH
-        ls $(xcode-select -p)/usr/bin
-
-    - name: Print instruments
-      run: |
-          xcrun simctl list devices | grep -v "Unavailable" | grep -v "unavailable"
-        
-    # A name for your step to display on GitHub.
-    - name: "Start Simulator"
-      run: |
-        UUID=$(xcrun simctl list devices | grep -v "Unavailable" | grep -v "unavailable" | grep -o "${{ matrix.device }} ([A-Z0-9-]\+)" | awk -F '[()]' '{print $2}')
-        
-        xcrun simctl boot $UUID
-
     # The branch or tag ref that triggered the workflow will be checked out.
     # https://github.com/actions/checkout
     # - uses: actions/checkout@v3
@@ -65,6 +39,28 @@ jobs:
         cache: true
         cache-key: flutter-3.10.3
         cache-path: ${{ runner.tool_cache }}/flutter-3.10.3
+
+    - name: Set latest Xcode version
+      run: |
+        echo "Available Xcode versions:"
+        XCODE_PATH=$(ls /Applications | grep Xcode | sort -V | tail -n 1)
+        echo "Selected Xcode version: $XCODE_PATH"
+        sudo xcode-select -switch /Applications/$XCODE_PATH/Contents/Developer
+
+    - name: Print Xcode version
+      run: |
+        xcodebuild -version
+
+    - name: Print instruments
+      run: |
+          xcrun simctl list devices | grep -v "Unavailable" | grep -v "unavailable"
+        
+    # A name for your step to display on GitHub.
+    - name: "Start Simulator"
+      run: |
+        UUID=$(xcrun simctl list devices | grep -v "Unavailable" | grep -v "unavailable" | grep -o "${{ matrix.device }} ([A-Z0-9-]\+)" | awk -F '[()]' '{print $2}')
+        
+        xcrun simctl boot $UUID
 
     - name: flutter pub get
       run: flutter pub get
