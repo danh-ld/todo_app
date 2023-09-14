@@ -67,7 +67,7 @@ jobs:
         cache-path: ${{ runner.tool_cache }}/flutter-3.10.3
 
     - name: Check if cache hit
-        echo ${{ steps.setup_flutter.outputs.cache_hit }}
+        run: echo ${{ steps.setup_flutter.outputs.cache_hit }}
 
     - name: flutter pub get
       run: flutter pub get
