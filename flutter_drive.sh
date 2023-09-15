@@ -42,7 +42,9 @@ if [ $awk_exit_code -eq 1 ] || [ $awk_exit_code -eq 2 ] || [ $flutter_exit_code 
 fi
 
 if [ $awk_exit_code -eq 0 ]; then
+    rm -rf pipe
     echo -e "${GREEN}✓ All testcases passed:${NC}"
+    exit 0
 fi
 
 # Xóa named pipe
