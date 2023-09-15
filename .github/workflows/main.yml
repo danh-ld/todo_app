@@ -57,7 +57,7 @@ jobs:
         run: |
           UUID=$(xcrun simctl list devices | grep -v "Unavailable" | grep -v "unavailable" | grep "${{ matrix.device }}" | awk -F '[()]' '{print $(NF-3)}')
           echo $UUID
-          xcrun simctl boot $UUID
+          xcrun simctl boot --headless $UUID
           open -a Simulator
 
       - name: "Run Flutter Driver tests"
