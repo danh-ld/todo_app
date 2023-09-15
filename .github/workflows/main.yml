@@ -15,13 +15,33 @@ jobs:
         # - "iPhone 11 Pro Max (13.1)"
       # When set to true, GitHub cancels all in-progress jobs if any matrix job
       # fails.
-      fail-fast: false
+      fail-fast: true
     # The type of machine to run the job on.
     runs-on: macOS-latest
     # Contains a sequence of tasks.
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v2
+
+    - name: Set latest Xcode version
+      run: |
+        echo "Available Xcode versions:"
+        XCODE_PATH=$(ls /Applications | grep Xcode | sort -V | tail -n 1)
+        echo "Selected Xcode version: $XCODE_PATH"
+        sudo xcode-select -switch /Applications/$XCODE_PATH/Contents/Developer
+
+    - name: Print Xcode version
+      run: xcodebuild -version
+
+    - name: List devices
+      run: xcrun simctl list devices | grep -v "Unavailable" | grep -v "unavailable"
+        
+    - name: "Start Simulator"
+      run: |
+        UUID=$(xcrun simctl list devices | grep -v "Unavailable" | grep -v "unavailable" | grep "${{ matrix.device }}" | awk -F '[()]' '{print $(NF-3)}')
+        echo $UUID
+        xcrun simctl boot $UUID
+        open -a Simulator
 
     - name: "Install flutter"
       uses: subosito/flutter-action@v2
@@ -39,28 +59,6 @@ jobs:
       run: sudo gem install cocoapods
     - name: Install Pods
       run: cd ios && pod install
-
-    - name: Set latest Xcode version
-      run: |
-        echo "Available Xcode versions:"
-        XCODE_PATH=$(ls /Applications | grep Xcode | sort -V | tail -n 1)
-        echo "Selected Xcode version: $XCODE_PATH"
-        sudo xcode-select -switch /Applications/$XCODE_PATH/Contents/Developer
-
-    - name: Print Xcode version
-      run: |
-        xcodebuild -version
-
-    - name: Print instruments
-      run: |
-          xcrun simctl list devices | grep -v "Unavailable" | grep -v "unavailable"
-        
-    - name: "Start Simulator"
-      run: |
-        UUID=$(xcrun simctl list devices | grep -v "Unavailable" | grep -v "unavailable" | grep "${{ matrix.device }}" | awk -F '[()]' '{print $(NF-3)}')
-        echo $UUID
-        xcrun simctl boot $UUID
-        open -a Simulator
 
     - name: "Run Flutter Driver tests"
       # run: "flutter drive --target=test_driver/app.dart"
