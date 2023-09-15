@@ -40,7 +40,7 @@ if [ $awk_exit_code -eq 1 ] || [ $awk_exit_code -eq 2 ] || [ $flutter_exit_code 
     echo "$error"
     exit 1
 fi
-# Kiểm tra mã trả về của cả flutter driver và awk
+
 if [ $awk_exit_code -eq 0 ]; then
     echo -e "${GREEN}✓ All testcases passed:${NC}"
 fi
