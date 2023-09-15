@@ -15,7 +15,7 @@ jobs:
         # - "iPhone 11 Pro Max (13.1)"
       # When set to true, GitHub cancels all in-progress jobs if any matrix job
       # fails.
-      fail-fast: true
+      fail-fast: false
     # The type of machine to run the job on.
     runs-on: macOS-latest
     # Contains a sequence of tasks.
@@ -57,8 +57,7 @@ jobs:
         run: |
           UUID=$(xcrun simctl list devices | grep -v "Unavailable" | grep -v "unavailable" | grep "${{ matrix.device }}" | awk -F '[()]' '{print $(NF-3)}')
           echo $UUID
-          xcrun simctl boot --headless $UUID
-          open -a Simulator
+          xcrun simctl boot $UUID
 
       - name: "Run Flutter Driver tests"
         # run: "flutter drive --target=test_driver/app.dart"
