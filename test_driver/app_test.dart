@@ -44,14 +44,15 @@ void main() {
       );
       await driver?.tap(addField);
       await driver?.enterText(
-        // "sky foreversky foreversky foreversky foreversky foreversky forever",
-        "sky forever",
+        "sky foreversky foreversky foreversky foreversky foreversky forever",
+        // "sky forever",
       );
       await driver?.tap(addButton);
 
       await driver?.waitFor(
         find.text(
-          "sky forever",
+          "sky foreversky foreversky foreversky foreversky foreversky forever",
+          // "sky forever",
         ),
         timeout: const Duration(seconds: 3),
       );
