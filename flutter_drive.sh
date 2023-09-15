@@ -18,11 +18,17 @@ error=$(awk '
     /Todo App --/ { todo_error=1; print; next }
     todo_error && !/Invoker\._waitForOutstandingCallbacks/ { print; next }
     todo_error && /Invoker\._waitForOutstandingCallbacks/ { print; todo_error=0; exit 2 }
+    /All tests passed / { ok=1; print; next }
+    ok && !/<…>/ { print; next }
+    ok && /<…>/ { print; ok=0; exit 0 }
 ' < pipe)
 
 # Chờ flutter driver hoàn thành và lấy mã trả về của nó
 wait $flutter_pid
 flutter_exit_code=$?
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+NC='\033[0m'
 
 # Kiểm tra mã thoát của awk
 awk_exit_code=$?
@@ -30,9 +36,13 @@ awk_exit_code=$?
 # Kiểm tra mã trả về của cả flutter driver và awk
 if [ $awk_exit_code -eq 1 ] || [ $awk_exit_code -eq 2 ] || [ $flutter_exit_code -ne 0 ]; then
     rm -rf pipe
-    echo "Error detected:"
+    echo -e "${RED}✘ Error detected:${NC}"
     echo "$error"
     exit 1
+fi
+# Kiểm tra mã trả về của cả flutter driver và awk
+if [ $awk_exit_code -eq 0 ]; then
+    echo -e "${GREEN}✓ All testcases passed:${NC}"
 fi
 
 # Xóa named pipe
