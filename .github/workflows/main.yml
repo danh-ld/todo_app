@@ -23,6 +23,23 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v2
 
+    - name: "Install flutter"
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.10.3'
+        channel: 'stable'
+        cache: true
+        cache-key: flutter-3.10.3
+        cache-path: ${{ runner.tool_cache }}/flutter-3.10.3
+
+    - name: flutter pub get
+      run: flutter pub get
+    
+    - name: Install CocoaPods
+      run: sudo gem install cocoapods
+    - name: Install Pods
+      run: cd ios && pod install
+
     - name: Set latest Xcode version
       run: |
         echo "Available Xcode versions:"
@@ -42,23 +59,6 @@ jobs:
         echo $UUID
         xcrun simctl boot $UUID
         open -a Simulator
-
-    - name: "Install flutter"
-      uses: subosito/flutter-action@v2
-      with:
-        flutter-version: '3.10.3'
-        channel: 'stable'
-        cache: true
-        cache-key: flutter-3.10.3
-        cache-path: ${{ runner.tool_cache }}/flutter-3.10.3
-
-    - name: flutter pub get
-      run: flutter pub get
-    
-    - name: Install CocoaPods
-      run: sudo gem install cocoapods
-    - name: Install Pods
-      run: cd ios && pod install
 
     - name: "Run Flutter Driver tests"
       # run: "flutter drive --target=test_driver/app.dart"
