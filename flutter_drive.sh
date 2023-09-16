@@ -1,17 +1,17 @@
 #!/bin/bash
 
-# Tạo named pipe
-name=$1
-rm -rf pipe-${name}
-mkfifo pipe-${name}
+# create named pipe
+uuid=$1 #id of device
+rm -rf pipe-${uuid}
+mkfifo pipe-${uuid}
 
-# Chạy flutter driver và đưa output vào named pipe
-flutter drive --target=test_driver/app.dart -d ${name} > pipe-${name} &
+# run flutter driver and output to named pipe
+flutter drive --target=test_driver/app.dart -d ${uuid} > pipe-${uuid} &
 
-# Lưu pid của flutter driver
+# savw pid of flutter driver
 flutter_pid=$!
 
-# Đọc từ named pipe với awk
+# read form từ named pipe with awk
 error=$(awk '
     /flutter: \[FlutterError\]/ { flutter_error=1; print; next }
     flutter_error && !/<…>/ { print; next }
@@ -19,27 +19,27 @@ error=$(awk '
     /Todo App --/ { todo_error=1; print; next }
     todo_error && !/Invoker\._waitForOutstandingCallbacks/ { print; next }
     todo_error && /Invoker\._waitForOutstandingCallbacks/ { print; todo_error=0; exit 2 }
-' < pipe-${name})
+' < pipe-${uuid})
 
-# Chờ flutter driver hoàn thành và lấy mã trả về của nó
+# wait flutter driver finish and get exit code
 wait $flutter_pid
 flutter_exit_code=$?
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 NC='\033[0m'
 
-# Kiểm tra mã thoát của awk
+# get awk exit code
 awk_exit_code=$?
 
-# Kiểm tra mã trả về của cả flutter driver và awk
+# check awk exit code && flutter exit code
 if [ $awk_exit_code -eq 1 ] || [ $awk_exit_code -eq 2 ] || [ $flutter_exit_code -ne 0 ]; then
-    rm -rf pipe-${name}
+    rm -rf pipe-${uuid}
     echo -e "${RED}✘ Error detected:${NC}"
     echo "$error"
     exit 1
 fi
 
 echo -e "${GREEN}✓ All testcases passed:${NC}"
-# Xóa named pipe
-rm -rf pipe-${name}
+# del named pipe
+rm -rf pipe-${uuid}
 
