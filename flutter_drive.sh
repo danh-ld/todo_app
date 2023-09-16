@@ -23,9 +23,6 @@ error=$(awk '
 # Chờ flutter driver hoàn thành và lấy mã trả về của nó
 wait $flutter_pid
 flutter_exit_code=$?
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-NC='\033[0m'
 
 # Kiểm tra mã thoát của awk
 awk_exit_code=$?
@@ -33,18 +30,10 @@ awk_exit_code=$?
 # Kiểm tra mã trả về của cả flutter driver và awk
 if [ $awk_exit_code -eq 1 ] || [ $awk_exit_code -eq 2 ] || [ $flutter_exit_code -ne 0 ]; then
     rm -rf pipe
-    echo -e "${RED}✘ Error detected:${NC}"
+    echo "Error detected:"
     echo "$error"
     exit 1
 fi
-
-# if [ $awk_exit_code -eq 0 ]; then
-#     rm -rf pipe
-#     echo -e "${GREEN}✓ All testcases passed:${NC}"
-#     exit 0
-# fi
-
-echo -e "${GREEN}✓ All testcases passed:${NC}"
 
 # Xóa named pipe
 rm -rf pipe
