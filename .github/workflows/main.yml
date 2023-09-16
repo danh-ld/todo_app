@@ -33,7 +33,6 @@ jobs:
           UUID=$(xcrun simctl list devices | grep -v "Unavailable" | grep -v "unavailable" | sed -E 's/ \(([A-Z0-9\-]+)\) / -- (\1) /g' | grep "${{ matrix.device }} -- " | awk -F '[()]' '{print $(NF-3)}')
           echo $UUID
           xcrun simctl boot $UUID
-          open -a Simulator
 
       - name: "Install flutter"
         uses: subosito/flutter-action@v2
