@@ -1,11 +1,12 @@
 #!/bin/bash
 
 # Tạo named pipe
-rm -rf pipe
-mkfifo pipe
+name=$1
+rm -rf pipe-${name}
+mkfifo pipe-${name}
 
 # Chạy flutter driver và đưa output vào named pipe
-flutter drive --target=test_driver/app.dart > pipe &
+flutter drive --target=test_driver/app.dart -d ${name} > pipe-${name} &
 
 # Lưu pid của flutter driver
 flutter_pid=$!
@@ -18,7 +19,7 @@ error=$(awk '
     /Todo App --/ { todo_error=1; print; next }
     todo_error && !/Invoker\._waitForOutstandingCallbacks/ { print; next }
     todo_error && /Invoker\._waitForOutstandingCallbacks/ { print; todo_error=0; exit 2 }
-' < pipe)
+' < pipe-${name})
 
 # Chờ flutter driver hoàn thành và lấy mã trả về của nó
 wait $flutter_pid
@@ -29,12 +30,12 @@ awk_exit_code=$?
 
 # Kiểm tra mã trả về của cả flutter driver và awk
 if [ $awk_exit_code -eq 1 ] || [ $awk_exit_code -eq 2 ] || [ $flutter_exit_code -ne 0 ]; then
-    rm -rf pipe
+    rm -rf pipe-${name}
     echo "Error detected:"
     echo "$error"
     exit 1
 fi
 
 # Xóa named pipe
-rm -rf pipe
+rm -rf pipe-${name}
 
