@@ -17,7 +17,7 @@ error=$(awk '
     flutter_error && /<…>/ { print; flutter_error=0; exit 1 }
     /Todo App --/ { todo_error=1; print; next }
     todo_error && !/Invoker\._waitForOutstandingCallbacks/ { print; next }
-    todo_error && /Invoker\._waitForOutstandingCallbacks/ { print; todo_error=0; exit 2 }\
+    todo_error && /Invoker\._waitForOutstandingCallbacks/ { print; todo_error=0; exit 2 }
 ' < pipe)
 
 # Chờ flutter driver hoàn thành và lấy mã trả về của nó
