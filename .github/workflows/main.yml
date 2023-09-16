@@ -32,6 +32,7 @@ jobs:
         run: |
           UUID=$(xcrun simctl list devices | grep -v "Unavailable" | grep -v "unavailable" | sed -E 's/ \(([A-Z0-9\-]+)\) / -- (\1) /g' | grep "${{ matrix.device }} -- " | awk -F '[()]' '{print $(NF-3)}')
           echo $UUID
+          echo "UUID=$UUID" >> $GITHUB_ENV
           xcrun simctl boot $UUID
 
       - name: "Install flutter"
@@ -53,14 +54,16 @@ jobs:
 
       - name: "Run Flutter Driver tests"
         # run: "flutter drive --target=test_driver/app.dart"
-        run: |
-          UUID=$(xcrun simctl list devices | grep -v "Unavailable" | grep -v "unavailable" | sed -E 's/ \(([A-Z0-9\-]+)\) / -- (\1) /g' | grep "${{ matrix.device }} -- " | awk -F '[()]' '{print $(NF-3)}')
-          echo $UUID
-          bash flutter_drive.sh $UUID
+        run: sh flutter_drive.sh $UUID
+        # run: |
+        #   UUID=$(xcrun simctl list devices | grep -v "Unavailable" | grep -v "unavailable" | sed -E 's/ \(([A-Z0-9\-]+)\) / -- (\1) /g' | grep "${{ matrix.device }} -- " | awk -F '[()]' '{print $(NF-3)}')
+        #   echo $UUID
+        #   bash flutter_drive.sh $UUID
 
       - name: "Shutdown Simulator"
         if: always()
-        run: |
-          UUID=$(xcrun simctl list devices | grep -v "Unavailable" | grep -v "unavailable" | sed -E 's/ \(([A-Z0-9\-]+)\) / -- (\1) /g' | grep "${{ matrix.device }} -- " | awk -F '[()]' '{print $(NF-3)}')
-          echo "Shutting down ${{ matrix.device }} with UUID: $UUID"
-          xcrun simctl shutdown $UUID
+        run: xcrun simctl shutdown $UUID
+        # run: |
+        #   UUID=$(xcrun simctl list devices | grep -v "Unavailable" | grep -v "unavailable" | sed -E 's/ \(([A-Z0-9\-]+)\) / -- (\1) /g' | grep "${{ matrix.device }} -- " | awk -F '[()]' '{print $(NF-3)}')
+        #   echo "Shutting down ${{ matrix.device }} with UUID: $UUID"
+        #   xcrun simctl shutdown $UUID
