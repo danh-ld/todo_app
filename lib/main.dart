@@ -6,9 +6,9 @@ void driverLog(String source, String message) {
 }
 
 void main() {
-  FlutterError.onError = (FlutterErrorDetails details) async {
-    driverLog('FlutterError', details.toString());
-  };
+  // FlutterError.onError = (FlutterErrorDetails details) async {
+  //   driverLog('FlutterError', details.toString());
+  // };
   runApp(App());
 }
 
