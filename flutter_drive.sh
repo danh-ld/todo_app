@@ -17,8 +17,8 @@ error=$(awk '
     flutter_error && !/<…>/ { print; next }
     flutter_error && /<…>/ { print; flutter_error=0; exit 1 }
     /Todo App --/ { todo_error=1; print; next }
-    todo_error && !/Invoker\._waitForOutstandingCallbacks/ { print; next }
-    todo_error && /Invoker\._waitForOutstandingCallbacks/ { print; todo_error=0; exit 2 }
+    todo_error && !/Some tests failed/ { print; next }
+    todo_error && /Some tests failed/ { print; todo_error=0; exit 2 }
 ' < pipe-${uuid})
 
 # wait flutter driver finish and get exit code
