@@ -33,9 +33,9 @@ awk_exit_code=$?
 
 # check awk exit code && flutter exit code
 if [ $awk_exit_code -eq 1 ] || [ $awk_exit_code -eq 2 ] || [ $flutter_exit_code -ne 0 ]; then
-    rm -rf pipe-${uuid}
     echo -e "${RED}✘ Error detected:${NC}"
     echo "$error"
+    rm -rf pipe-${uuid}
     exit 1
 fi
 
