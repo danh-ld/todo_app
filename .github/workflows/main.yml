@@ -65,9 +65,22 @@ jobs:
           echo $UUID
           echo "UUID=$UUID" >> $GITHUB_ENV
           xcrun simctl boot $UUID
+      - name: "Wait for Simulator to boot"
+        run: |
+          MAX_TRIES=30
+          try_count=0
+          until xcrun simctl list devices | grep $UUID | grep "Booted" || [[ "$try_count" -eq "$MAX_TRIES" ]]; do
+            echo "Waiting for Simulator to boot ($try_count/$MAX_TRIES)..."
+            try_count=$((try_count + 1))
+            sleep 10
+          done
+          if [[ "$try_count" -eq "$MAX_TRIES" ]]; then
+            echo "Simulator failed to boot in time!"
+            exit 1
+          fi
 
       - name: "Run Flutter Driver tests"
-        run: "flutter drive --target=test_driver/app.dart"
+        run: "flutter drive --target=test_driver/app.dart -d $UUID"
         # run: sh flutter_drive.sh $UUID
 
       - name: "Shutdown Simulator"
