@@ -53,9 +53,6 @@ jobs:
           then
             sudo gem install cocoapods
           fi
-      - name: Install Pods
-        if: steps.cache.outputs.cache-hit != 'true'
-        run: cd ios && pod install
 
       - name: Cache CocoaPods
         uses: actions/cache@v2
@@ -64,6 +61,10 @@ jobs:
           key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
           restore-keys: |
             ${{ runner.os }}-pods-
+      - name: Install Pods
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: cd ios && pod install
+
 
       - name: "Run Flutter Driver tests"
         run: "flutter drive --target=test_driver/app.dart -d $UUID"
