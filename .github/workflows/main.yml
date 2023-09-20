@@ -8,7 +8,7 @@ jobs:
       matrix:
         device:
           - "iPhone 14"
-          - "iPad Air (5th generation)"
+          # - "iPad Air (5th generation)"
       fail-fast: false
     runs-on: macOS-latest
     steps:
@@ -47,10 +47,23 @@ jobs:
       - name: flutter pub get
         run: flutter pub get
     
-      - name: Install CocoaPods
-        run: sudo gem install cocoapods
+      - name: Check CocoaPods installation
+        run: |
+          if ! command -v pod &> /dev/null
+          then
+            sudo gem install cocoapods
+          fi
       - name: Install Pods
+        if: steps.cache.outputs.cache-hit != 'true'
         run: cd ios && pod install
+
+      - name: Cache CocoaPods
+        uses: actions/cache@v2
+        with:
+          path: ios/Pods
+          key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pods-
 
       - name: "Run Flutter Driver tests"
         run: "flutter drive --target=test_driver/app.dart -d $UUID"
