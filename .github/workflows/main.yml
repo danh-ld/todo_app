@@ -24,13 +24,6 @@ jobs:
       - name: List devices
         run: xcrun simctl list devices | grep -v "Unavailable" | grep -v "unavailable"
 
-      - name: "Start Simulator"
-        run: |
-          UUID=$(xcrun simctl list devices | grep -v "Unavailable" | grep -v "unavailable" | sed -E 's/ \(([A-Z0-9\-]+)\) / -- (\1) /g' | grep "${{ matrix.device }} -- " | awk -F '[()]' '{print $(NF-3)}')
-          echo $UUID
-          echo "UUID=$UUID" >> $GITHUB_ENV
-          xcrun simctl boot $UUID
-
       - name: "Install flutter"
         uses: subosito/flutter-action@v2
         with:
@@ -67,6 +60,14 @@ jobs:
       - name: Install Pods
         if: steps.cache.outputs.cache-hit != 'true'
         run: cd ios && pod install
+
+      - name: "Start Simulator"
+        run: |
+          UUID=$(xcrun simctl list devices | grep -v "Unavailable" | grep -v "unavailable" | sed -E 's/ \(([A-Z0-9\-]+)\) / -- (\1) /g' | grep "${{ matrix.device }} -- " | awk -F '[()]' '{print $(NF-3)}')
+          echo $UUID
+          echo "UUID=$UUID" >> $GITHUB_ENV
+          xcrun simctl boot $UUID
+
       - name: "Wait for Simulator to boot"
         run: |
           MAX_TRIES=30
@@ -74,7 +75,7 @@ jobs:
           until xcrun simctl list devices | grep $UUID | grep "Booted" || [[ "$try_count" -eq "$MAX_TRIES" ]]; do
             echo "Waiting for Simulator to boot ($try_count/$MAX_TRIES)..."
             try_count=$((try_count + 1))
-            sleep 10
+            sleep 5
           done
           if [[ "$try_count" -eq "$MAX_TRIES" ]]; then
             echo "Simulator failed to boot in time!"
@@ -83,8 +84,8 @@ jobs:
 
       - name: "Run Flutter Driver tests"
         # run: "flutter drive --target=test_driver/app.dart -d $UUID"
-        run: sh flutter_drive.sh
+        run: sh flutter_drive.sh $UUID
 
-      - name: "Shutdown Simulator"
-        if: always()
-        run: xcrun simctl shutdown $UUID
+      # - name: "Shutdown Simulator"
+      #   if: always()
+      #   run: xcrun simctl shutdown $UUID
