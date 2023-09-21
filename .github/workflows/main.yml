@@ -23,8 +23,9 @@ jobs:
           sudo xcode-select -switch /Applications/$XCODE_PATH/Contents/Developer
       # - name: List devices
         # run: xcrun simctl list devices | grep -v "Unavailable" | grep -v "unavailable"
-      - name: Set environment variable
-        run: echo "DEVICE_LIST=$(xcrun simctl list devices | grep -v 'Unavailable' | grep -v 'unavailable' | sed -E 's/ \(([A-Z0-9\-]+)\) / -- (\1) /g')" >> $GITHUB_ENV
+      
+      - name: List devices and set env variable
+        run: echo "DEVICES=$(xcrun simctl list devices | grep -v "Unavailable" | grep -v "unavailable" | sed -E 's/ \(([A-Z0-9\-]+)\) / -- (\1) /g')" >> $GITHUB_ENV
 
       - name: "Install flutter"
         uses: subosito/flutter-action@v2
