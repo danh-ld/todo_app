@@ -86,7 +86,3 @@ jobs:
       - name: "Run Flutter Driver tests"
         run: flutter drive --target=test_driver/app.dart -d $UUID --observatory-port=9200
         # run: sh flutter_drive.sh $UUID
-
-      # - name: "Shutdown Simulator"
-      #   if: always()
-      #   run: xcrun simctl shutdown $UUID
