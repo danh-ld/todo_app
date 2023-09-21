@@ -82,8 +82,8 @@ jobs:
           fi
 
       - name: "Run Flutter Driver tests"
-        run: "flutter drive --target=test_driver/app.dart -d $UUID"
-        # run: sh flutter_drive.sh $UUID
+        # run: "flutter drive --target=test_driver/app.dart -d $UUID"
+        run: sh flutter_drive.sh $UUID
 
       - name: "Shutdown Simulator"
         if: always()
