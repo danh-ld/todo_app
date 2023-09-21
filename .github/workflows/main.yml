@@ -21,8 +21,10 @@ jobs:
           XCODE_PATH=$(ls /Applications | grep Xcode | sort -V | tail -n 1)
           echo "Selected Xcode version: $XCODE_PATH"
           sudo xcode-select -switch /Applications/$XCODE_PATH/Contents/Developer
-      - name: List devices
-        run: xcrun simctl list devices | grep -v "Unavailable" | grep -v "unavailable"
+      # - name: List devices
+        # run: xcrun simctl list devices | grep -v "Unavailable" | grep -v "unavailable"
+      - name: Set environment variable
+        run: echo "DEVICE_LIST=$(xcrun simctl list devices | grep -v 'Unavailable' | grep -v 'unavailable' | sed -E 's/ \(([A-Z0-9\-]+)\) / -- (\1) /g')" >> $GITHUB_ENV
 
       - name: "Install flutter"
         uses: subosito/flutter-action@v2
@@ -62,8 +64,9 @@ jobs:
         run: cd ios && pod install
 
       - name: "Start Simulator"
+          # UUID=$(xcrun simctl list devices | grep -v "Unavailable" | grep -v "unavailable" | sed -E 's/ \(([A-Z0-9\-]+)\) / -- (\1) /g' | grep "${{ matrix.devices }} -- " | awk -F '[()]' '{print $(NF-3)}')
         run: |
-          UUID=$(xcrun simctl list devices | grep -v "Unavailable" | grep -v "unavailable" | sed -E 's/ \(([A-Z0-9\-]+)\) / -- (\1) /g' | grep "${{ matrix.devices }} -- " | awk -F '[()]' '{print $(NF-3)}')
+          UUID=$($DEVICE_LIST | grep "${{ matrix.devices }} -- " | awk -F '[()]' '{print $(NF-3)}')
           echo $UUID
           echo "UUID=$UUID" >> $GITHUB_ENV
           xcrun simctl boot $UUID
