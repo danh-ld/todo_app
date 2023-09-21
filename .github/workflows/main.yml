@@ -8,7 +8,7 @@ jobs:
       matrix:
         device:
           - "iPhone 12"
-          # - "iPad Air (5th generation)"
+          - "iPad Air (5th generation)"
       fail-fast: false
     runs-on: macOS-latest
     steps:
