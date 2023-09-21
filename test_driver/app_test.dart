@@ -9,18 +9,6 @@ void main() {
 
     FlutterDriver? driver;
 
-    Future<bool> isPresent(
-      SerializableFinder byValueKey, {
-      Duration timeout = const Duration(seconds: 1),
-    }) async {
-      try {
-        await driver?.waitFor(byValueKey, timeout: timeout);
-        return true;
-      } catch (exception) {
-        return false;
-      }
-    }
-
     // Connect to the Flutter driver before running any tests.
     setUpAll(() async {
       driver = await FlutterDriver.connect();
