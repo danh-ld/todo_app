@@ -8,7 +8,7 @@ jobs:
       matrix:
         device:
           - "iPhone 14 Pro Max"
-          # - "iPad Air (5th generation)"
+          - "iPad Air (5th generation)"
       fail-fast: false
     runs-on: macOS-latest
     steps:
@@ -22,6 +22,19 @@ jobs:
           echo "Selected Xcode version: $XCODE_PATH"
           sudo xcode-select -switch /Applications/$XCODE_PATH/Contents/Developer
 
+      - name: Print Xcode version
+        run: xcodebuild -version
+
+      - name: List devices
+        run: xcrun simctl list devices | grep -v "Unavailable" | grep -v "unavailable"
+        
+      - name: "Start Simulator"
+        run: |
+          UUID=$(xcrun simctl list devices | grep -v "Unavailable" | grep -v "unavailable" | sed -E 's/ \(([A-Z0-9\-]+)\) / -- (\1) /g' | grep "${{ matrix.device }} -- " | awk -F '[()]' '{print $(NF-3)}')
+          echo $UUID
+          echo "UUID=$UUID" >> $GITHUB_ENV
+          xcrun simctl boot $UUID
+
       - name: "Install flutter"
         uses: subosito/flutter-action@v2
         with:
@@ -31,53 +44,13 @@ jobs:
           cache-key: flutter-3.10.3
           cache-path: ${{ runner.tool_cache }}/flutter-3.10.3
 
-      - name: Cache Dart SDK
-        uses: actions/cache@v2
-        with:
-          path: ~/.pub-cache
-          key: ${{ runner.os }}-dart-${{ hashFiles('**/pubspec.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-dart-
       - name: flutter pub get
         run: flutter pub get
     
-      - name: Check CocoaPods installation
-        run: |
-          if ! command -v pod &> /dev/null
-          then
-            sudo gem install cocoapods
-          fi
-
-      - name: Cache CocoaPods
-        uses: actions/cache@v2
-        with:
-          path: ios/Pods
-          key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-pods-
+      - name: Install CocoaPods
+        run: sudo gem install cocoapods
       - name: Install Pods
-        if: steps.cache.outputs.cache-hit != 'true'
         run: cd ios && pod install
-
-      - name: "Start Simulator"
-        run: |
-          UUID=$(xcrun simctl list devices | grep -v "Unavailable" | grep -v "unavailable" | sed -E 's/ \(([A-Z0-9\-]+)\) / -- (\1) /g' | grep "${{ matrix.device }} -- " | awk -F '[()]' '{print $(NF-3)}')
-          echo $UUID
-          echo "UUID=$UUID" >> $GITHUB_ENV
-          xcrun simctl boot $UUID
-      - name: "Wait for Simulator to boot"
-        run: |
-          MAX_TRIES=30
-          try_count=0
-          until xcrun simctl list devices | grep $UUID | grep "Booted" || [[ "$try_count" -eq "$MAX_TRIES" ]]; do
-            echo "Waiting for Simulator to boot ($try_count/$MAX_TRIES)..."
-            try_count=$((try_count + 1))
-            sleep 10
-          done
-          if [[ "$try_count" -eq "$MAX_TRIES" ]]; then
-            echo "Simulator failed to boot in time!"
-            exit 1
-          fi
 
       - name: "Run Flutter Driver tests"
         run: "flutter drive --target=test_driver/app.dart -d $UUID"
@@ -86,3 +59,4 @@ jobs:
       - name: "Shutdown Simulator"
         if: always()
         run: xcrun simctl shutdown $UUID
+
