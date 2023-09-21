@@ -33,9 +33,6 @@ jobs:
           cache-key: flutter-3.10.3
           cache-path: ${{ runner.tool_cache }}/flutter-3.10.3
 
-      - name: "flutter doctor"
-        run: flutter doctor
-
       - name: Cache Dart SDK
         uses: actions/cache@v2
         with:
