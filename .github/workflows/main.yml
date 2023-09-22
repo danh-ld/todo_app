@@ -8,7 +8,7 @@ jobs:
       matrix:
         devices:
           - "iPhone 12"
-          # - "iPad Air (5th generation)"
+          - "iPad Air (5th generation)"
       fail-fast: false
     runs-on: macOS-latest
     steps:
@@ -94,5 +94,5 @@ jobs:
           fi
 
       - name: "Run Flutter Driver tests"
-        run: flutter drive --target=test_driver/app.dart -d $UUID
-        # run: sh flutter_drive.sh $UUID
+        # run: flutter drive --target=test_driver/app.dart -d $UUID
+        run: sh flutter_drive.sh $UUID
