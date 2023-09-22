@@ -8,10 +8,8 @@ void main() {
 
     // Connect to the Flutter driver before running any tests.
     setUpAll(() async {
-      print('danhdanh-setUpAll');
       driver =
           await FlutterDriver.connect(timeout: const Duration(seconds: 30));
-      print('danhdanh-setUpAll-connected');
     });
 
     // Close the connection to the driver after the tests have completed.
@@ -32,6 +30,11 @@ void main() {
         find.text("MTP is the best"),
         timeout: const Duration(seconds: 3),
       );
+      String text = await driver?.getText(addField) ?? '';
+
+      if (text.isNotEmpty) {
+        throw Exception("TextField do not clear");
+      }
       await driver?.tap(addField);
       await driver?.enterText(
         // "sky foreversky foreversky foreversky foreversky foreversky forever",
@@ -46,6 +49,11 @@ void main() {
         ),
         timeout: const Duration(seconds: 3),
       );
+      text = await driver?.getText(addField) ?? '';
+
+      if (text.isNotEmpty) {
+        throw Exception("TextField do not clear");
+      }
     });
   });
 }
