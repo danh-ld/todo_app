@@ -6,7 +6,7 @@ rm -rf pipe-${uuid}
 mkfifo pipe-${uuid}
 
 # run flutter driver and output to named pipe
-flutter drive --target=test_driver/app.dart -d ${uuid} --observatory-port=9200 > pipe-${uuid} &
+flutter drive --target=test_driver/app.dart -d ${uuid} > pipe-${uuid} &
 
 # savw pid of flutter driver
 flutter_pid=$!
