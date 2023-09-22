@@ -4,9 +4,6 @@ import 'package:test/test.dart';
 
 void main() {
   group('Todo App -- ', () {
-    final addField = find.byValueKey('addField');
-    final addButton = find.byValueKey('addButton');
-
     FlutterDriver? driver;
 
     // Connect to the Flutter driver before running any tests.
@@ -25,6 +22,8 @@ void main() {
     });
 
     test('add a todo', () async {
+      final addField = find.byValueKey('addField');
+      final addButton = find.byValueKey('addButton');
       await driver?.tap(addField);
       await driver?.enterText("MTP is the best");
       await driver?.tap(addButton);
