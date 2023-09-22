@@ -11,7 +11,8 @@ void main() {
 
     // Connect to the Flutter driver before running any tests.
     setUpAll(() async {
-      driver = await FlutterDriver.connect();
+      driver =
+          await FlutterDriver.connect(timeout: const Duration(seconds: 30));
     });
 
     // Close the connection to the driver after the tests have completed.
@@ -32,15 +33,15 @@ void main() {
       );
       await driver?.tap(addField);
       await driver?.enterText(
-        "sky foreversky foreversky foreversky foreversky foreversky forever",
-        // "sky forever",
+        // "sky foreversky foreversky foreversky foreversky foreversky forever",
+        "sky forever",
       );
       await driver?.tap(addButton);
 
       await driver?.waitFor(
         find.text(
-          "sky foreversky foreversky foreversky foreversky foreversky forever",
-          // "sky forever",
+          // "sky foreversky foreversky foreversky foreversky foreversky forever",
+          "sky forever",
         ),
         timeout: const Duration(seconds: 3),
       );
