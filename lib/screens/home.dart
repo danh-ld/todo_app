@@ -25,7 +25,7 @@ class _HomeState extends State<Home> {
             height: 20,
           ),
           const Text(
-            "Add Todo",
+            "Add more Todo",
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
