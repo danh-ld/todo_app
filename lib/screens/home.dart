@@ -23,7 +23,7 @@ class _HomeState extends State<Home> {
         children: <Widget>[
           const SizedBox(height: 20),
           const Text(
-            "Add more Todo",
+            "Add another Todo",
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
           Card(
