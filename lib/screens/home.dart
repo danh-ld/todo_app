@@ -21,15 +21,10 @@ class _HomeState extends State<Home> {
       ),
       body: Column(
         children: <Widget>[
-          const SizedBox(
-            height: 20,
-          ),
+          const SizedBox(height: 20),
           const Text(
-            "Add another Todo",
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
+            "Add more Todo",
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
           Card(
             margin: const EdgeInsets.all(20),
@@ -54,28 +49,21 @@ class _HomeState extends State<Home> {
                         });
                       }
                     },
-                  )
+                  ),
                 ],
               ),
             ),
           ),
-          const SizedBox(
-            height: 20,
-          ),
+          const SizedBox(height: 20),
           const Text(
             "Todos",
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
           Expanded(
             child: ListView.builder(
               itemCount: todos.length,
               itemBuilder: (_, index) {
-                return TodoCard(
-                  todo: todos[index],
-                );
+                return TodoCard(todo: todos[index]);
               },
             ),
           ),
