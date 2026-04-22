@@ -11,6 +11,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   final TextEditingController _todoController = TextEditingController();
   List<String> todos = [];
+  String title = 'Amateur Coder Todo';
 
   @override
   Widget build(BuildContext context) {
